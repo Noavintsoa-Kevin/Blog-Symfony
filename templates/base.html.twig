@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Blog - {% block title %}{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+         {{ encore_entry_script_tags('app') }}
+           
+        {% endblock %}
+    </head>
+    <body>
+        <style>
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+            }
+        </style>
+
+        <nav class="py-2 bg-dark border-bottom">
+            <div class="container d-flex flex-wrap">
+            <div class="dropdown">
+            <a class="nav nav-link dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                Blog
+            </a>
+            <ul class="dropdown-content">
+                <li><a class="dropdown-item" href="{{path('admin')}}">Tableau de bord</a></li>
+                <li><a class="dropdown-item" href="#">Menus</a></li>
+            </ul>
+            </div>
+                        <div class="dropdown">
+            <a class="nav nav-link dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                Ajouter
+            </a>
+            <ul class="dropdown-content">
+                <li><a class="dropdown-item" href="#">Article</a></li>
+                <li><a class="dropdown-item" href="#">Page</a></li>
+            </ul>
+            </div>
+
+            </div>
+        </nav>
+        <div class="container">
+            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom ">
+                <a class="d-flex align-items-center mb-3 nb-md-0 me-md-auto text-dark text-decoration-none" href="{{path('app_accueil') }}">
+                    Mon blog
+                </a>
+                {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                    
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <a href=" {{path('app_register')}} " class="nav-link text-dark" aria-current="page">S'inscrire</a>
+                    </li>
+                     <li class="nav-item">
+                        <a href=" {{ path('app_login') }} " class="nav-link text-dark" aria-current="page">Se connecter</a>
+                    </li>
+                </ul>
+                {% else %}
+                    
+                    <div class="dropdown">
+                        <a class="nav nav-link dropdown-toggle text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                            {{app.user.nom|capitalize}}
+                        </a>
+                        <ul class="dropdown-content">
+                            <li><a class="dropdown-item" href=" {{path('app_profile', {nom: app.user.nom} )}} ">Mon Profil</a></li>
+                            <li><a class="dropdown-item" href=" {{path('app_logout')}} ">Deconnexion</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
+                
+                
+            </header>
+        
+        </div>
+        {% block body %}{% endblock %}
+        <div class="container">
+            <footer class="d-flex flex-warp justify-content-between align-items-center py-3 my-4 border-top">
+                <div class="col-md-4 d-flex align-items-center">
+                    <span class="copyright">@ {{'now'|date('Y') }}  </span>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

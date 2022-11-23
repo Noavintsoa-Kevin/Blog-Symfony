@@ -1,0 +1,30 @@
+{% set nom = commentaire.user.nom %}
+    
+
+<div class="comment mb-5" id="c-{{ commentaire.id }} ">
+    <div class="card">
+        <div class="card-body">
+            <h5 class = " card-title" >
+                <a class="text-decoration-none" href="#" >
+                    <span class="comment-author" > {{nom}} </span>
+                </a>
+                <div class="date">
+                    {{ commentaire.createdAt|date('d M Y') }}
+                </div>
+            </h5>
+            <p class="card-text">
+                {{commentaire.contenue}}
+            </p>
+
+            <div class="heure">
+                {{ commentaire.createdAt|date('H:i') }}
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+    .date{
+        text-align: end;
+    }
+</style>

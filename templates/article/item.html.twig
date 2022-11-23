@@ -1,0 +1,36 @@
+{% set article_show =  path('article_show', { 'slug': article.slug |default('.')})   %}
+<article class="mb-3 article">
+    <div class="row">
+        <div class="col-md-5 ">
+        {% if article.caracteristiqueImage |default('') %}
+            <a href="{{article_show}}">
+                <img src="/upload/{{ article.caracteristiqueImage.filename }}" alt=" {{ article.caracteristiqueImage.altText }} " loading="lazy" width="350" height="205">
+            </a>
+        {% endif %}
+        </div>
+    </div>
+    <div class="col-md-7 contenue" >
+        <h2>
+            <a class="text-decoration-none" href="{{article_show}}">
+                {{article.titre |default('')}}
+            </a>
+        </h2>
+        <p>
+            {{article.createdAt |default('') | date ('d M Y') }}
+        </p>
+        {{ article.descriptionText |default('')?: article.content|default('')|striptags|slice(0, 100) }}
+    </div>
+</article>
+<style>
+.article{
+    margin-left:20%;
+    width:60%;
+    border:1px solid black;
+    box-shadow: 3px 3px 3px 3px;
+    border-radius: 10px 10px 10px 10px;
+}
+.contenue{
+    margin:5%;
+}
+
+</style>
